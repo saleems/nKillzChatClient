@@ -49,7 +49,6 @@ public class ClientController implements Initializable {
         sendButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Send Button Pressed");
                 send();
             }
         });
@@ -57,9 +56,10 @@ public class ClientController implements Initializable {
         connectButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Connect Button Pressed");
                 String server = ipTextField.getText();
+                ipTextField.clear();
                 int port = Integer.parseInt(portTextField.getText());
+                portTextField.clear();
                 connect(server, port);
             }
         });
@@ -67,7 +67,6 @@ public class ClientController implements Initializable {
        sendTextField.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Enter Pressed");
                 send();
             }
         });
