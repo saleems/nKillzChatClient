@@ -71,9 +71,6 @@ public class ClientController implements Initializable {
                 send();
             }
         });
-
-
-
     }
 
 
