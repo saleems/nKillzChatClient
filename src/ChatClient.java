@@ -1,13 +1,17 @@
 import java.applet.Applet;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
 //fuck nasir
 //sadru pls
-public class ChatClient extends Applet {
+public class ChatClient extends Applet implements ActionListener {
     private Socket socket = null;
     private DataInputStream console = null;
     private DataOutputStream streamOut = null;
@@ -18,6 +22,7 @@ public class ChatClient extends Applet {
             quit = new Button("Bye");
     private String serverName = "localhost";
     private int serverPort = 4444;
+
     //EDITTTTTT
     public void init() {
         Panel keys = new Panel();
@@ -38,22 +43,26 @@ public class ChatClient extends Applet {
         quit.disable();
         send.disable();
         getParameters();
+        input.addActionListener(this);
+        connect.addActionListener(this);
+        send.addActionListener(this);
+        quit.addActionListener(this);
     }
 
-    public boolean action(Event e, Object o) {
-        if (e.target == quit) {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(quit)) {
             input.setText(".bye");
             send();
             quit.disable();
             send.disable();
             connect.enable();
-        } else if (e.target == connect) {
+        } else if (e.getSource().equals(connect)) {
             connect(serverName, serverPort);
-        } else if (e.target == send) {
+        } else if (e.getSource().equals(send) || e.getSource().equals(input)) {
             send();
             input.requestFocus();
         }
-        return true;}
+    }
 
     public void connect(String serverName, int serverPort) {
         println("Establishing connection. Please wait ...");
@@ -118,7 +127,7 @@ public class ChatClient extends Applet {
         serverPort = Integer.parseInt(getParameter("port"));
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         ChatClient pussy = new ChatClient();
         pussy.setVisible(true);
     }
