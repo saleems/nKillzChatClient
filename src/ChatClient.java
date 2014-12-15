@@ -17,7 +17,7 @@ public class ChatClient extends Applet {
             quit = new Button("Bye");
     private String serverName = "localhost";
     private int serverPort = 4444;
-
+    //EDITTTTTT
     public void init() {
         Panel keys = new Panel();
         keys.setLayout(new GridLayout(1, 2));
