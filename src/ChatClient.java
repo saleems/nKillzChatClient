@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 //fuck nasir
-//sadrupls
 public class ChatClient extends Applet {
     private Socket socket = null;
     private DataInputStream console = null;
