@@ -6,7 +6,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@style1.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientController">
    <children>
-      <TextArea fx:id="mainTextArea" prefHeight="298.0" prefWidth="600.0" />
+      <TextArea fx:id="mainTextArea" editable="false" prefHeight="298.0" prefWidth="600.0" />
       <TextField fx:id="sendTextField" layoutX="8.0" layoutY="301.0" prefHeight="25.0" prefWidth="317.0" promptText="Enter Message" />
       <Button fx:id="sendButton" layoutX="331.0" layoutY="301.0" mnemonicParsing="false" styleClass="send-button" text="Send" />
       <TextField fx:id="ipTextField" layoutX="8.0" layoutY="326.0" prefHeight="25.0" prefWidth="230.0" promptText="Enter IP (localhost for local connection)" />

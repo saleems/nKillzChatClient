@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ServerController">
+   <children>
+      <TextArea fx:id="idListTextArea" editable="false" layoutY="39.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="302.0" prefWidth="215.0" promptText="Once a client connects, all client IDs will be displayed here" />
+      <Label layoutX="52.0" layoutY="14.0" text="Connected Client IDs" />
+      <TextField fx:id="kickIdTextField" alignment="CENTER" layoutY="355.0" promptText="Enter ID to Kick!" />
+      <Button fx:id="kickButton" layoutX="163.0" layoutY="350.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="60.0" text="KICK!" textAlignment="CENTER" />
+      <TextArea fx:id="chatTextArea" layoutX="241.0" layoutY="46.0" prefHeight="294.0" prefWidth="359.0" />
+      <Label layoutX="413.0" layoutY="14.0" prefHeight="17.0" prefWidth="100.0" text="Chat" />
+      <TextField fx:id="chatTextField" layoutX="241.0" layoutY="355.0" prefHeight="25.0" prefWidth="209.0" promptText="Enter message..." />
+      <Button fx:id="sendButton" layoutX="463.0" layoutY="355.0" mnemonicParsing="false" text="Send" />
+      <TextField fx:id="portTextField" layoutX="202.0" layoutY="10.0" prefHeight="25.0" prefWidth="78.0" promptText="Enter Port..." />
+      <Button fx:id="startButton" layoutX="287.0" layoutY="10.0" mnemonicParsing="false" text="START" />
+   </children>
+</Pane>

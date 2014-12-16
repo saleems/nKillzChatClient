@@ -59,10 +59,14 @@ public class ChatServer implements Runnable {
         } else {
             for (int i = 0; i < clientCount; i++)
                 clients[i].send(ID + ": " + input);
-
+            println(ID + ": " + input);
             if (input.length() > 3 && input.substring(0, 3).equalsIgnoreCase("add"))
                 handleAddMessage(input, ID);
         }
+    }
+
+    private void println(String s) {
+        System.out.println(s);
     }
 
     /**
@@ -104,6 +108,7 @@ public class ChatServer implements Runnable {
      * @param s
      */
     private void sendServerMessage(String s) {
+        System.out.println("SERVER" + ": " + s);
         for (int i = 0; i < clientCount; i++)
             clients[i].send("SERVER" + ": " + s);
     }
@@ -143,6 +148,7 @@ public class ChatServer implements Runnable {
 
     public static void main(String args[]) {
         ChatServer server = null;
+
         if (args.length != 1)
             System.out.println("Usage: java ChatServer port");
         else

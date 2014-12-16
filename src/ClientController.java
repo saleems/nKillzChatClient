@@ -56,11 +56,7 @@ public class ClientController implements Initializable {
         connectButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String server = ipTextField.getText();
-                ipTextField.clear();
-                int port = Integer.parseInt(portTextField.getText());
-                portTextField.clear();
-                connect(server, port);
+                pullAndConnect();
             }
         });
 
@@ -70,6 +66,22 @@ public class ClientController implements Initializable {
                 send();
             }
         });
+
+        portTextField.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                pullAndConnect();
+            }
+        });
+    }
+
+    private void pullAndConnect(){
+        String server = ipTextField.getText();
+        ipTextField.clear();
+        int port = Integer.parseInt(portTextField.getText());
+        portTextField.clear();
+        connect(server, port);
+        sendTextField.requestFocus();
     }
 
 
