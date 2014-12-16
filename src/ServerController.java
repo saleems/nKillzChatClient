@@ -11,6 +11,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -204,9 +205,9 @@ public class ServerController implements Initializable, Runnable {
 
     public synchronized void remove(int ID) {
         int pos = findClient(ID);
-        removeIDFromList(ID);
         if (pos >= 0) {
             ChatServerThread toTerminate = clients[pos];
+            int toTerminateID = toTerminate.getID();
             println("Removing client thread " + ID);
             if (pos < clientCount - 1)
                 for (int i = pos + 1; i < clientCount; i++)
@@ -218,6 +219,7 @@ public class ServerController implements Initializable, Runnable {
                 println("Error closing thread: " + ioe);
             }
             toTerminate.interrupt();
+            updateIDList(toTerminateID);
         }
     }
 
@@ -230,15 +232,15 @@ public class ServerController implements Initializable, Runnable {
         });
     }
 
-    private void removeIDFromList(int ID){
-        String[] parts = idListTextArea.getText().split("\n");
-        String result = "";
-        for(String st : parts) {
-            if(Integer.parseInt(st) != ID)
-                result.concat(st + "\n");
-        }
+    private void updateIDList(int ignoreID) {
         idListTextArea.clear();
-        idListTextArea.setText(result);
+        ArrayList<Integer> soFar = new ArrayList<Integer>();
+        for (ChatServerThread c : clients) {
+            if (c != null && c.getID() != ignoreID && !soFar.contains(c.getID())) {
+                addToIDList(String.valueOf(c.getID()));
+                soFar.add(c.getID());
+            }
+        }
     }
 
     private void addThread(Socket socket) {
