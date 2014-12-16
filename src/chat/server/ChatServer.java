@@ -1,3 +1,5 @@
+package chat.server;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -150,7 +152,7 @@ public class ChatServer implements Runnable {
         ChatServer server = null;
 
         if (args.length != 1)
-            System.out.println("Usage: java ChatServer port");
+            System.out.println("Usage: java chat.server.ChatServer port");
         else
             server = new ChatServer(Integer.parseInt(args[0]));
     }
