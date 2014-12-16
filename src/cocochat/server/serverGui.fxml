@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ServerController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cocochat.server.ServerController">
    <children>
       <TextArea fx:id="idListTextArea" editable="false" layoutY="39.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="302.0" prefWidth="215.0" promptText="Once a client connects, all client IDs will be displayed here" />
       <Label layoutX="52.0" layoutY="14.0" text="Connected Client IDs" />
