@@ -1,0 +1,19 @@
+.button {
+    -fx-font: 16px "Segoe UI";
+    -fx-padding: 10;
+    -fx-background-color: #145FA2;
+    -fx-text-fill: whitesmoke;
+
+}
+.text-field{
+    -fx-background-color: transparent;
+    -fx-border-color: whitesmoke;
+    -fx-text-fill: whitesmoke;
+    -fx-border-radius: 5px;
+}
+
+.connectButton{
+    -fx-font: 12px "Segoe UI";
+    -fx-text-fill: whitesmoke;
+    -fx-border-width: 10px;
+}
