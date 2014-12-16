@@ -5,7 +5,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <VBox id="mainBox" alignment="TOP_CENTER" prefHeight="517.0" prefWidth="450.0" style="-fx-background-color: #0A2135;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientController">
    <children>
       <HBox alignment="CENTER" spacing="5.0">
@@ -24,7 +23,7 @@
       </HBox>
       <BorderPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <center>
-            <TextArea fx:id="mainTextArea" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@style.css" text="Messages will appear here" BorderPane.alignment="CENTER">
+            <TextArea fx:id="mainTextArea" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Messages will appear here" stylesheets="@style.css" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets />
                </BorderPane.margin>

@@ -60,7 +60,7 @@ public class ClientController implements Initializable {
             }
         });
 
-       sendTextField.setOnAction(new EventHandler<ActionEvent>() {
+        sendTextField.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 send();
@@ -75,15 +75,18 @@ public class ClientController implements Initializable {
         });
     }
 
-    private void pullAndConnect(){
-        String server = ipTextField.getText();
-        ipTextField.clear();
-        int port = Integer.parseInt(portTextField.getText());
-        portTextField.clear();
-        connect(server, port);
+    private void pullAndConnect() {
+        if(ipTextField.getText().equals("")){
+            connect("localhost", 8181);
+        } else {
+            String server = ipTextField.getText();
+            ipTextField.clear();
+            int port = Integer.parseInt(portTextField.getText());
+            portTextField.clear();
+            connect(server, port);
+        }
         sendTextField.requestFocus();
     }
-
 
 
     private void send() {
@@ -100,6 +103,9 @@ public class ClientController implements Initializable {
     public void handle(String msg) {
         if (msg.equals(".bye")) {
             println("Good bye. Press RETURN to exit ...");
+            close();
+        } else if (msg.equals("kicked")) {
+            println("You've been kicked by the server.");
             close();
         } else println(msg);
     }
@@ -186,8 +192,6 @@ public class ClientController implements Initializable {
             }
         }
     }
-
-
 }
 
 

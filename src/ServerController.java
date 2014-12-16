@@ -14,6 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+
 /**
  * Created by Sadruddin on 12/15/2014.
  */
@@ -35,12 +36,12 @@ public class ServerController implements Initializable, Runnable {
     @FXML
     private TextField portTextField;
 
-    private ChatServerThread clients[] = new ChatServerThread[50];
+    private ArrayList<ChatServerThread> clients = new ArrayList<ChatServerThread>();
     private ServerSocket server = null;
     private Thread thread = null;
     private int clientCount = 0;
 
-    private ArrayList<Integer> IDs = new ArrayList<>();
+    private ArrayList<Integer> IDs = new ArrayList<Integer>();
 
 
     @Override
@@ -64,23 +65,39 @@ public class ServerController implements Initializable, Runnable {
         portTextField.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                startServer(Integer.parseInt(portTextField.getText()));
+                if (portTextField.getText().equals("")) {
+                    startServer(8181);
+                } else {
+                    startServer(Integer.parseInt(portTextField.getText()));
+                }
                 portTextField.setText("");
+                startButton.setDisable(true);
+                portTextField.setDisable(true);
             }
         });
 
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                startServer(Integer.parseInt(portTextField.getText()));
+                if (portTextField.getText().equals("")) {
+                    startServer(8181);
+                } else {
+                    startServer(Integer.parseInt(portTextField.getText()));
+                }
                 portTextField.setText("");
+                startButton.setDisable(true);
+                portTextField.setDisable(true);
             }
         });
 
         kickIdTextField.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                remove(Integer.parseInt(kickIdTextField.getText()));
+                try {
+                    remove(Integer.parseInt(kickIdTextField.getText()));
+                } catch (NumberFormatException e) {
+                    println("Invalid ID : " + kickIdTextField.getText());
+                }
                 kickIdTextField.setText("");
             }
         });
@@ -88,7 +105,11 @@ public class ServerController implements Initializable, Runnable {
         kickButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                remove(Integer.parseInt(kickIdTextField.getText()));
+                try {
+                    remove(Integer.parseInt(kickIdTextField.getText()));
+                } catch (NumberFormatException e) {
+                    println("Invalid ID : " + kickIdTextField.getText());
+                }
                 kickIdTextField.setText("");
             }
         });
@@ -108,7 +129,6 @@ public class ServerController implements Initializable, Runnable {
     public void run() {
         while (thread != null) {
             try {
-                //println("Waiting for a client ...");
                 addThread(server.accept());
             } catch (IOException ioe) {
                 println("Server accept error: " + ioe);
@@ -133,18 +153,18 @@ public class ServerController implements Initializable, Runnable {
 
     private int findClient(int ID) {
         for (int i = 0; i < clientCount; i++)
-            if (clients[i].getID() == ID)
+            if (clients.get(i).getID() == ID)
                 return i;
         return -1;
     }
 
     public synchronized void handle(int ID, String input) {
         if (input.equals(".bye")) {
-            clients[findClient(ID)].send(".bye");
+            clients.get(findClient(ID)).send(".bye");
             remove(ID);
         } else {
             for (int i = 0; i < clientCount; i++)
-                clients[i].send(ID + ": " + input);
+                clients.get(i).send(ID + ": " + input);
             println(ID + ": " + input);
             if (input.length() > 3 && input.substring(0, 3).equalsIgnoreCase("add"))
                 handleAddMessage(input, ID);
@@ -202,18 +222,21 @@ public class ServerController implements Initializable, Runnable {
     private void sendServerMessage(String s) {
         println("SERVER" + ": " + s);
         for (int i = 0; i < clientCount; i++)
-            clients[i].send("SERVER" + ": " + s);
+            clients.get(i).send("SERVER" + ": " + s);
     }
 
     public synchronized void remove(int ID) {
         int pos = findClient(ID);
+        if (!IDs.contains((Integer) ID)) {
+            println(ID + " is not a valid client port!" + pos);
+        }
         if (pos >= 0) {
-            ChatServerThread toTerminate = clients[pos];
+            sendServerMessage("Client " + ID + " has been kicked!");
+            ChatServerThread toTerminate = clients.get(pos);
+            toTerminate.send("kicked");
             IDs.remove((Integer) toTerminate.getID());
             println("Removing client thread " + ID);
-            if (pos < clientCount - 1)
-                for (int i = pos + 1; i < clientCount; i++)
-                    clients[i - 1] = clients[i];
+            clients.remove(pos);
             clientCount--;
             try {
                 toTerminate.close();
@@ -243,20 +266,18 @@ public class ServerController implements Initializable, Runnable {
     }
 
     private void addThread(Socket socket) {
-        if (clientCount < clients.length) {
-            System.out.println("Client accepted: " + socket);
-            clients[clientCount] = new ChatServerThread(this, socket);
-            IDs.add(socket.getPort());
-            addToIDList(String.valueOf(socket.getPort()));
-            try {
-                clients[clientCount].open();
-                clients[clientCount].start();
-                clientCount++;
-            } catch (IOException ioe) {
-                System.out.println("Error opening thread: " + ioe);
-            }
-        } else
-            System.out.println("Client refused: maximum " + clients.length + " reached.");
+        println("Client accepted: " + socket);
+        clients.add(new ChatServerThread(this, socket));
+        IDs.add(socket.getPort());
+        addToIDList(String.valueOf(socket.getPort()));
+        try {
+            clients.get(clientCount).open();
+            clients.get(clientCount).start();
+            clientCount++;
+        } catch (IOException ioe) {
+            println("Error opening thread: " + ioe);
+        }
+
     }
 
 
@@ -279,7 +300,7 @@ public class ServerController implements Initializable, Runnable {
                 streamOut.writeUTF(msg);
                 streamOut.flush();
             } catch (IOException ioe) {
-                System.out.println(ID + " ERROR sending: " + ioe.getMessage());
+                println(ID + " ERROR sending: " + ioe.getMessage());
                 server.remove(ID);
                 stop();
             }
@@ -290,13 +311,13 @@ public class ServerController implements Initializable, Runnable {
         }
 
         public void run() {
-            System.out.println("Server Thread " + ID + " running.");
+            println("Server Thread " + ID + " running.");
             while (true) {
                 try {
                     server.handle(ID, streamIn.readUTF());
                 } catch (IOException ioe) {
-                    System.out.println(ID + " ERROR reading: " + ioe.getMessage());
-                    server.remove(ID);
+                    //println(ID + " ERROR reading: " + ioe.getMessage());
+                    //server.remove(ID);
                     stop();
                 }
             }
