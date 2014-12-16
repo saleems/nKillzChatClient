@@ -27,7 +27,7 @@ public class ClientLauncher extends Application {
             Pane page = (Pane) FXMLLoader.load(ClientLauncher.class.getResource("gui.fxml"));
             Scene scene = new Scene(page);
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Chat Client");
+            primaryStage.setTitle("cocoChat Client");
             primaryStage.show();
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

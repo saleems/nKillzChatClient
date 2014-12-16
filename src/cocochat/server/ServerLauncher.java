@@ -27,7 +27,7 @@ public class ServerLauncher extends Application {
             Pane page = (Pane) FXMLLoader.load(ServerLauncher.class.getResource("serverGui.fxml"));
             Scene scene = new Scene(page);
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Chat Server");
+            primaryStage.setTitle("cocoChat Server");
             primaryStage.show();
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
