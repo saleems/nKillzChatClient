@@ -40,6 +40,8 @@ public class ServerController implements Initializable, Runnable {
     private Thread thread = null;
     private int clientCount = 0;
 
+    private ArrayList<Integer> IDs = new ArrayList<>();
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -207,7 +209,7 @@ public class ServerController implements Initializable, Runnable {
         int pos = findClient(ID);
         if (pos >= 0) {
             ChatServerThread toTerminate = clients[pos];
-            int toTerminateID = toTerminate.getID();
+            IDs.remove((Integer) toTerminate.getID());
             println("Removing client thread " + ID);
             if (pos < clientCount - 1)
                 for (int i = pos + 1; i < clientCount; i++)
@@ -219,7 +221,7 @@ public class ServerController implements Initializable, Runnable {
                 println("Error closing thread: " + ioe);
             }
             toTerminate.interrupt();
-            updateIDList(toTerminateID);
+            updateIDList();
         }
     }
 
@@ -232,14 +234,11 @@ public class ServerController implements Initializable, Runnable {
         });
     }
 
-    private void updateIDList(int ignoreID) {
+    private void updateIDList() {
         idListTextArea.clear();
-        ArrayList<Integer> soFar = new ArrayList<Integer>();
-        for (ChatServerThread c : clients) {
-            if (c != null && c.getID() != ignoreID && !soFar.contains(c.getID())) {
-                addToIDList(String.valueOf(c.getID()));
-                soFar.add(c.getID());
-            }
+
+        for (int i : IDs) {
+            addToIDList(String.valueOf(i));
         }
     }
 
@@ -247,6 +246,7 @@ public class ServerController implements Initializable, Runnable {
         if (clientCount < clients.length) {
             System.out.println("Client accepted: " + socket);
             clients[clientCount] = new ChatServerThread(this, socket);
+            IDs.add(socket.getPort());
             addToIDList(String.valueOf(socket.getPort()));
             try {
                 clients[clientCount].open();
