@@ -12,6 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 
@@ -42,6 +43,7 @@ public class ServerController implements Initializable, Runnable {
     private int clientCount = 0;
 
     private ArrayList<Integer> IDs = new ArrayList<Integer>();
+    private HashMap<Integer, String> nicknameTable = new HashMap<Integer, String>();
 
 
     @Override
@@ -162,13 +164,23 @@ public class ServerController implements Initializable, Runnable {
         if (input.equals(".bye")) {
             clients.get(findClient(ID)).send(".bye");
             remove(ID);
-        } else {
+        } else if (input.startsWith("nick~"))
+            handleNicknameMessage(ID, input);
+        else {
             for (int i = 0; i < clientCount; i++)
-                clients.get(i).send(ID + ": " + input);
-            println(ID + ": " + input);
+                clients.get(i).send(nicknameTable.get(ID) + ": " + input);
+            println(nicknameTable.get(ID) + ": " + input);
             if (input.length() > 3 && input.substring(0, 3).equalsIgnoreCase("add"))
                 handleAddMessage(input, ID);
         }
+    }
+
+    private void handleNicknameMessage(int id, String input) {
+        String[] parts = input.split(" ");
+        String nickname = parts[1];
+
+        nicknameTable.put(id, nickname);
+        updateIDList();
     }
 
     private void println(String s) {
@@ -228,13 +240,14 @@ public class ServerController implements Initializable, Runnable {
     public synchronized void remove(int ID) {
         int pos = findClient(ID);
         if (!IDs.contains((Integer) ID)) {
-            println(ID + " is not a valid client port!" + pos);
+            println(ID + " is not a valid client port!");
         }
         if (pos >= 0) {
-            sendServerMessage("Client " + ID + " has been kicked!");
+            sendServerMessage(nicknameTable.get(ID) + " has been kicked!");
             ChatServerThread toTerminate = clients.get(pos);
             toTerminate.send("kicked");
             IDs.remove((Integer) toTerminate.getID());
+            nicknameTable.remove(ID);
             println("Removing client thread " + ID);
             clients.remove(pos);
             clientCount--;
@@ -258,10 +271,15 @@ public class ServerController implements Initializable, Runnable {
     }
 
     private void updateIDList() {
-        idListTextArea.clear();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                idListTextArea.clear();
+            }
+        });
 
         for (int i : IDs) {
-            addToIDList(String.valueOf(i));
+            addToIDList("Nickname: " + nicknameTable.get(i) + " ID: " + String.valueOf(i));
         }
     }
 

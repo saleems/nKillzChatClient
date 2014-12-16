@@ -29,6 +29,8 @@ public class ClientController implements Initializable {
     @FXML
     private TextField ipTextField;
     @FXML
+    private TextField nicknameTextField;
+    @FXML
     private Button connectButton;
     @FXML
     private TextField portTextField;
@@ -39,6 +41,8 @@ public class ClientController implements Initializable {
     private ChatClientThread client = null;
     private String serverName = "localhost";
     private int serverPort = 8181;
+
+    String nickname = "";
 
 
     @Override
@@ -76,7 +80,7 @@ public class ClientController implements Initializable {
     }
 
     private void pullAndConnect() {
-        if(ipTextField.getText().equals("")){
+        if (ipTextField.getText().equals("")) {
             connect("localhost", 8181);
         } else {
             String server = ipTextField.getText();
@@ -85,7 +89,27 @@ public class ClientController implements Initializable {
             portTextField.clear();
             connect(server, port);
         }
+        setAndSendNickname();
+
         sendTextField.requestFocus();
+    }
+
+    private void setAndSendNickname(){
+        if (nicknameTextField.getText().equals(""))
+            nickname = String.valueOf(socket.getPort());
+        else
+            nickname = nicknameTextField.getText();
+
+        sendNicknameToServer();
+    }
+
+    private void sendNicknameToServer(){
+        try{
+            streamOut.writeUTF("nick~ " + nickname);
+            streamOut.flush();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -94,6 +118,7 @@ public class ClientController implements Initializable {
             streamOut.writeUTF(sendTextField.getText());
             streamOut.flush();
             sendTextField.setText("");
+            sendTextField.setPromptText(nickname + ", please enter a message.");
         } catch (IOException ioe) {
             mainTextArea.appendText("Sending error: " + ioe.getMessage() + "\n");
             close();

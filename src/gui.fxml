@@ -9,8 +9,9 @@
    <children>
       <HBox alignment="CENTER" spacing="5.0">
          <children>
-            <TextField fx:id="ipTextField" prefHeight="27.0" prefWidth="219.0" promptText="Enter IP (localhost for local connection)" />
-            <TextField fx:id="portTextField" promptText="Enter Port" />
+            <TextField fx:id="ipTextField" prefHeight="27.0" prefWidth="167.0" promptText="Enter IP (default localhost)" />
+            <TextField fx:id="nicknameTextField" prefHeight="27.0" prefWidth="102.0" promptText="Enter Username" />
+            <TextField fx:id="portTextField" prefHeight="27.0" prefWidth="75.0" promptText="Enter Port" />
             <Button id="connectButton" fx:id="connectButton" mnemonicParsing="false" styleClass="connectButton" text="Connect">
                <HBox.margin>
                   <Insets />
