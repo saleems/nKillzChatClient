@@ -1,22 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cocochat.server.ServerController">
+<VBox prefHeight="482.0" prefWidth="787.0" stylesheets="@serverStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cocochat.server.ServerController">
    <children>
-      <TextArea fx:id="idListTextArea" editable="false" layoutY="39.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="302.0" prefWidth="215.0" promptText="Once a client connects, all client IDs will be displayed here" />
-      <Label layoutX="52.0" layoutY="14.0" text="Connected Client IDs" />
-      <TextField fx:id="kickIdTextField" alignment="CENTER" layoutY="355.0" promptText="Enter ID to Kick!" />
-      <Button fx:id="kickButton" layoutX="163.0" layoutY="350.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="60.0" text="KICK!" textAlignment="CENTER" />
-      <TextArea fx:id="chatTextArea" layoutX="241.0" layoutY="46.0" prefHeight="294.0" prefWidth="359.0" />
-      <Label layoutX="413.0" layoutY="14.0" prefHeight="17.0" prefWidth="100.0" text="Chat" />
-      <TextField fx:id="chatTextField" layoutX="241.0" layoutY="355.0" prefHeight="25.0" prefWidth="209.0" promptText="Enter message..." />
-      <Button fx:id="sendButton" layoutX="463.0" layoutY="355.0" mnemonicParsing="false" text="Send" />
-      <TextField fx:id="portTextField" layoutX="202.0" layoutY="10.0" prefHeight="25.0" prefWidth="78.0" promptText="Enter Port..." />
-      <Button fx:id="startButton" layoutX="287.0" layoutY="10.0" mnemonicParsing="false" text="START" />
+      <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+         <items>
+            <Button fx:id="startButton" mnemonicParsing="false" text="START" />
+            <TextField fx:id="portTextField" alignment="CENTER" prefHeight="31.0" prefWidth="176.0" promptText="Enter Port" />
+         </items>
+      </ToolBar>
+      <SplitPane dividerPositions="0.3574193548387097" VBox.vgrow="ALWAYS">
+         <items>
+            <VBox alignment="CENTER">
+               <children>
+                  <Label text="Connected Client IDs" />
+                  <TextArea fx:id="idListTextArea" editable="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="302.0" prefWidth="215.0" promptText="Once a client connects, all client IDs will be displayed here" wrapText="true" VBox.vgrow="ALWAYS">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </TextArea>
+                  <HBox>
+                     <children>
+                        <TextField fx:id="kickIdTextField" alignment="CENTER" promptText="Enter ID to Kick!" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="kickButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="85.0" text="KICK!" textAlignment="CENTER" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER">
+               <children>
+                  <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="100.0" text="Chat" />
+                  <TextArea fx:id="chatTextArea" editable="false" prefHeight="294.0" prefWidth="359.0" promptText="Messages will be displayed here" wrapText="true" VBox.vgrow="ALWAYS">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </TextArea>
+                  <HBox>
+                     <children>
+                        <TextField fx:id="chatTextField" prefHeight="25.0" prefWidth="209.0" promptText="Enter message..." HBox.hgrow="ALWAYS" />
+                        <Button fx:id="sendButton" mnemonicParsing="false" text="Send" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </items>
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" />
+         </VBox.margin>
+      </SplitPane>
    </children>
-</Pane>
+   <padding>
+      <Insets top="5.0" />
+   </padding>
+</VBox>

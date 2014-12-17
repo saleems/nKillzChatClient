@@ -17,3 +17,7 @@
     -fx-text-fill: whitesmoke;
     -fx-border-width: 10px;
 }
+
+*{
+    -fx-font: "Segoe UI";
+}

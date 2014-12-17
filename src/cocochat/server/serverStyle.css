@@ -1,0 +1,8 @@
+.button{
+    -fx-base: #145FA2;
+    -fx-spacing: 5px;
+    padding: 5px;
+}
+*{
+    -fx-font: 18px "Segoe UI";
+}
