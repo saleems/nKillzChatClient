@@ -11,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -58,7 +57,7 @@ public class ServerController implements Initializable, Runnable {
             @Override
             public void handle(ActionEvent event) {
                 sendServerMessage(chatTextField.getText());
-                chatTextField.setText("");
+                chatTextField.clear();
             }
         });
 
@@ -66,7 +65,7 @@ public class ServerController implements Initializable, Runnable {
             @Override
             public void handle(ActionEvent event) {
                 sendServerMessage(chatTextField.getText());
-                chatTextField.setText("");
+                chatTextField.clear();
             }
         });
 
@@ -125,7 +124,7 @@ public class ServerController implements Initializable, Runnable {
         idList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                System.out.println(newValue.getClass()+" "+newValue);
+                System.out.println(newValue.getClass() + " " + newValue);
                 //kickIdTextField.setText();
             }
         });
@@ -312,7 +311,6 @@ public class ServerController implements Initializable, Runnable {
         }
 
     }
-
 
     class ChatServerThread extends Thread {
         private ServerController server = null;
