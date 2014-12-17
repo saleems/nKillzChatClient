@@ -96,7 +96,7 @@ public class ClientController implements Initializable {
         sendTextField.requestFocus();
     }
 
-    private void setAndSendNickname(){
+    private void setAndSendNickname() {
         if (nicknameTextField.getText().equals(""))
             nickname = String.valueOf(socket.getPort());
         else
@@ -105,11 +105,11 @@ public class ClientController implements Initializable {
         sendNicknameToServer();
     }
 
-    private void sendNicknameToServer(){
-        try{
+    private void sendNicknameToServer() {
+        try {
             streamOut.writeUTF("nick~ " + nickname);
             streamOut.flush();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

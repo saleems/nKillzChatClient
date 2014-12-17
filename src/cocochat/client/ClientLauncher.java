@@ -18,7 +18,7 @@ public class ClientLauncher extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Application.launch(ClientLauncher.class, (java.lang.String[])null);
+        Application.launch(ClientLauncher.class, (java.lang.String[]) null);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ClientLauncher extends Application {
     }
 
     @Override
-    public void stop(){
+    public void stop() {
         System.exit(0);
     }
 }

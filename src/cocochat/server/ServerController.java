@@ -1,13 +1,17 @@
 package cocochat.server;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -23,7 +27,7 @@ import java.util.ResourceBundle;
  */
 public class ServerController implements Initializable, Runnable {
     @FXML
-    private TextArea idListTextArea;
+    private ListView idList;
     @FXML
     private TextArea chatTextArea;
     @FXML
@@ -115,6 +119,14 @@ public class ServerController implements Initializable, Runnable {
                     println("Invalid ID : " + kickIdTextField.getText());
                 }
                 kickIdTextField.setText("");
+            }
+        });
+
+        idList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                System.out.println(newValue.getClass()+" "+newValue);
+                //kickIdTextField.setText();
             }
         });
     }
@@ -267,7 +279,7 @@ public class ServerController implements Initializable, Runnable {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                idListTextArea.appendText(s + "\n");
+                idList.getItems().add(s);
             }
         });
     }
@@ -276,7 +288,8 @@ public class ServerController implements Initializable, Runnable {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                idListTextArea.clear();
+
+                idList.getItems().clear();
             }
         });
 

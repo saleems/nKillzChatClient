@@ -20,11 +20,7 @@
             <VBox alignment="CENTER">
                <children>
                   <Label text="Connected Client IDs" />
-                  <TextArea fx:id="idListTextArea" editable="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="302.0" prefWidth="215.0" promptText="Once a client connects, all client IDs will be displayed here" wrapText="true" VBox.vgrow="ALWAYS">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </TextArea>
+                  <ListView fx:id="idList" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                   <HBox>
                      <children>
                         <TextField fx:id="kickIdTextField" alignment="CENTER" promptText="Enter ID to Kick!" HBox.hgrow="ALWAYS" />
