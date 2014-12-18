@@ -8,6 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -36,6 +38,8 @@ public class ClientController implements Initializable {
     private Button connectButton;
     @FXML
     private TextField portTextField;
+    @FXML
+    private Button playButton;
 
     private Socket socket = null;
     private DataInputStream console = null;
@@ -45,6 +49,9 @@ public class ClientController implements Initializable {
     private int serverPort = 8181;
 
     String nickname = "";
+
+    Media hit = new Media(ClientController.class.getResource("coco.mp3").toString());
+    MediaPlayer mediaPlayer = new MediaPlayer(hit);
 
 
     @Override
@@ -79,6 +86,19 @@ public class ClientController implements Initializable {
                 pullAndConnect();
             }
         });
+
+        playButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (playButton.getText().equalsIgnoreCase("play")) {
+                    mediaPlayer.play();
+                    playButton.setText("Stop");
+                } else {
+                    mediaPlayer.pause();
+                    playButton.setText("Play");
+                }
+            }
+        });
     }
 
     private void pullAndConnect() {
@@ -96,7 +116,7 @@ public class ClientController implements Initializable {
         sendTextField.requestFocus();
     }
 
-    private void setAndSendNickname(){
+    private void setAndSendNickname() {
         if (nicknameTextField.getText().equals(""))
             nickname = String.valueOf(socket.getPort());
         else
@@ -105,11 +125,11 @@ public class ClientController implements Initializable {
         sendNicknameToServer();
     }
 
-    private void sendNicknameToServer(){
-        try{
+    private void sendNicknameToServer() {
+        try {
             streamOut.writeUTF("nick~ " + nickname);
             streamOut.flush();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
